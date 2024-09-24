@@ -1,13 +1,10 @@
 "use client"
 import usePetContexthook from "@/lib/hooks"
-import { Pet } from "@/lib/types"
 import Image from "next/image"
-import {  useContext, useTransition } from "react"
-import { Button } from "./ui/button"
 import PetButton from "./pet-button"
-import { deletePet } from "@/actions/actions"
+import { Pet } from "@prisma/client"
 type Props ={
-  Pet:Pet | undefined
+  Pet:Pet
 }
 
 
@@ -42,7 +39,7 @@ function EmptyView(){
 }
 
 function TopBar({Pet}:Props){
-  const [ isPending,startTransition]= useTransition()
+  
   const {handleCheckoutPet} = usePetContexthook()
   return (
     <div className="flex items-center bg-white px-8 py-5 border-b border-light">
@@ -52,7 +49,7 @@ function TopBar({Pet}:Props){
         <PetButton  actionType ="edit"  >Edit</PetButton>
         <PetButton 
         actionType="checkout" 
-        disabled = {isPending}
+        
         onClick={async()=>await handleCheckoutPet(Pet!.id)}>
         Checkout
         </PetButton>
@@ -66,12 +63,12 @@ function OtherInfo({Pet}:Props) {
     <div className="flex justify-around py-10 px-5 text-center">
       <div  >
         <h3 className="text-[13px] font-medium uppercase text-zinc-700 ">Owner name</h3>
-        <p className="mt-1 text-zinc-800 text-lg ">{Pet?.ownerName}</p>
+        <p className="mt-1 text-zinc-800 text-lg ">{Pet.ownerName}</p>
       </div>
       
       <div  >
         <h3 className="text-[13px] font-medium uppercase text-zinc-700 ">Age</h3>
-        <p className="mt-1 text-zinc-800 text-lg ">{Pet?.age}</p>
+        <p className="mt-1 text-zinc-800 text-lg ">{Pet.age}</p>
       </div>
       
     </div>
@@ -81,7 +78,7 @@ function OtherInfo({Pet}:Props) {
 function BottomBar ({Pet}:Props){
   return(
     <section className="bg-white px-7 py-5 rounded-md mb-9 mx-8 flex-1 border border_light" >
-    {Pet?.notes}
+    {Pet.notes}
   </section>
   )
 }

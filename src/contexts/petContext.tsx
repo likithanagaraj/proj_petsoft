@@ -5,18 +5,18 @@ interface PetContextProviderProps {
 }
 type TPetContext = {
   Pets: Pet[];
-  SelectedPetId: string | null;
-  handleChangeSelectedPetId: (id: string) => void;
+  SelectedPetId: Pet['id'] | null;
+  handleChangeSelectedPetId: (id: Pet['id'] ) => void;
   SelectedPet: Pet | undefined;
   numberofPet: number;
-  handleCheckoutPet: (id: string) => Promise<void>;
-  handleAddPet: (newPet: Omit<Pet, "id">) => Promise<void>;
-  handleEdit: (Petid: string, newPetData: Omit<Pet, "id">) => Promise<void>;
+  handleCheckoutPet: (id: Pet['id'] ) => Promise<void>;
+  handleAddPet: (newPet: PetEssential) => Promise<void>;
+  handleEdit: (Petid: Pet['id'] , newPetData: PetEssential) => Promise<void>;
 };
 
 import { addPet, deletePet, editPet } from "@/actions/actions";
-import { Pet } from "@/lib/types";
-import { Palanquin } from "next/font/google";
+import { PetEssential } from "@/lib/types";
+import { Pet } from "@prisma/client";
 import React, { createContext, useOptimistic, useState } from "react";
 import { toast } from "sonner";
 
@@ -53,7 +53,7 @@ function PetContextProvider({ children, data }: PetContextProviderProps) {
   // if the return value of filter is true, the element will stay in the array
 
   //  Event handlers / actions
-  const handleAddPet = async (newPet: Omit<Pet, "id">) => {
+  const handleAddPet = async (newPet: PetEssential) => {
     setoptimisticPet({ action: "add", payload: newPet });
     const error = await addPet(newPet);
     if (error) {
@@ -62,7 +62,7 @@ function PetContextProvider({ children, data }: PetContextProviderProps) {
     }
   };
 
-  const handleEdit = async (Petid: string, newPetData: Omit<Pet, "id">) => {
+  const handleEdit = async (Petid: string, newPetData: PetEssential) => {
     setoptimisticPet({
       action: "edit",
       payload: {
