@@ -1,0 +1,74 @@
+// min-h-screen  -- min height is kept ti screen which will bring footer to bottom
+// #3 major folder
+1. (Marketing) -- Landing page
+2. (app) -- Private pages
+3. (auth) -- Authentication
+// using this folder strutures helps to create a layout for specific folder structure
+// Routing Strategy
+1. (name) ex: (auth) - every route can be kept under partiular name for good orignation
+
+// In Image tag we use width nd height bz to avoid  page shift
+
+// xl: it is used for large screen 
+
+// aschild used as props in button ui class -- allows you to replace the default component with a custom child element while keeping the defined classes.
+
+// -z : means that componets is below all other componets 
+
+// max-auto is used to center the div if it is provided with max-height
+
+// how to get a path from url --- usePathname()
+// cn -- twmerge and clsx
+//grid-rows-[45px_1fr] -- height and width will be given to grid and the element inside those will be given as full width nd height
+
+// fetch data in another way -- by using server components
+1. Make the funtion async
+2. call await fetch() inside the main async function
+
+// State managaement system-- Provider component(client Side)
+1. Create contexts folder -- file called PetContextProvider.tsx --> It will keep track of pets data
+2. Create Context i.e  import createContext from "react"
+instances -->export const PetCont = createContext(null)
+return (
+  <PetCont.Provider value={{
+    useState variable
+  }}> {children}</PetCont.Provider>
+)
+value --> to transport 
+
+3. GOt to layout nd <PetCont.Provider>{children} </PetCont.Provider> in btw header nd footer 
+
+3. Context Api, Zustand ,Redux works on  client Side  so mention on above as "use client"
+
+4. The everything whicha r wrap under PetContextProved (client compo) doesnot make the the page(server comp) as client bz here we r using {children } pattern
+
+5. Create hooks file in lib, 
+const con = useContext(PetCont)
+if(!con){
+  throws new Error()
+}
+return con
+
+
+// Db
+
+1. npm i typescript@5 tsnode@10.9.1 @types/node@20
+npm install typescript ts-node @types/node --save-dev
+
+2. npm install prisma --save-dev
+
+3. npx prisma init --datasource-provider sqlite
+- id String @id @default(cuid()) => id needs to be generated automatically by help of cuid() operation / uuid()
+
+4.npx prisma migrate dev --name init or
+npx prisma db push
+
+5  npx prisma studio
+Craed seed.tsx file in prisma folder and store the data 
+- "prisma" :{
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  }, 
+- Set the above statements in package.json
+6 npx prisma db seed
+
+7. Server Actions -Craete a folder actions
